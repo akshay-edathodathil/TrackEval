@@ -167,7 +167,7 @@ def plot_bar_scores(fps: int, my_vals: pd.Series, bt_vals: pd.Series, metrics: L
     w = 0.38
     plt.figure(figsize=(max(9, len(metrics) * 1.2), 5))
     plt.bar(x - w/2, bt, width=w, label="ByteTrack")
-    plt.bar(x + w/2, my, width=w, label="My algorithm")
+    plt.bar(x + w/2, my, width=w, label="FAWW-Track")
     plt.xticks(x, metrics, rotation=35, ha="right")
     plt.ylabel("Score")
     plt.title(f"{title} — {fps} fps (score metrics)")
@@ -191,7 +191,7 @@ def plot_bar_counts(fps: int, my_vals: pd.Series, bt_vals: pd.Series, metrics: L
     w = 0.38
     plt.figure(figsize=(max(7, len(metrics) * 1.6), 5))
     plt.bar(x - w/2, bt, width=w, label="ByteTrack")
-    plt.bar(x + w/2, my, width=w, label="My algorithm")
+    plt.bar(x + w/2, my, width=w, label="FAWW-Track")
     plt.xticks(x, metrics, rotation=35, ha="right")
     plt.ylabel("Count")
     plt.title(f"{title} — {fps} fps (count/other metrics)")
@@ -208,7 +208,7 @@ def plot_hota_curve(fps: int, my_a: np.ndarray, my_c: np.ndarray, bt_a: np.ndarr
     if bt_a.size:
         plt.plot(bt_a, bt_c, marker="o", label="ByteTrack")
     if my_a.size:
-        plt.plot(my_a, my_c, marker="o", label="My algorithm")
+        plt.plot(my_a, my_c, marker="o", label="FAWW-Track")
     plt.xlabel("Alpha threshold (e.g., 5 = 0.05)")
     plt.ylabel("HOTA")
     plt.title(f"{title} — HOTA vs alpha — {fps} fps (mean across matched rows)")
@@ -255,7 +255,7 @@ def main():
     ap.add_argument("--score_metrics", type=str, nargs="+", default=DEFAULT_SCORE_METRICS)
     ap.add_argument("--count_metrics", type=str, nargs="+", default=DEFAULT_COUNT_METRICS)
     ap.add_argument("--rank_metric", type=str, default="HOTA___AUC",
-                    help="Metric used to auto-pick best 'my algorithm' when --my_pattern is not given.")
+                    help="Metric used to auto-pick best 'FAWW-Track' when --my_pattern is not given.")
     ap.add_argument("--debug", action="store_true")
     args = ap.parse_args()
 
@@ -283,7 +283,7 @@ def main():
         # ByteTrack rows
         bt = df_f[df_f["tracker"].astype(str).str.lower().str.contains(args.bt_pattern.lower(), na=False)].copy()
 
-        # My algorithm rows
+        # FAWW-Track rows
         if args.my_pattern:
             my = df_f[df_f["tracker"].astype(str).str.lower().str.contains(args.my_pattern.lower(), na=False)].copy()
             chosen = args.my_pattern
